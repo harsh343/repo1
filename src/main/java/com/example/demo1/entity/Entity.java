@@ -12,15 +12,15 @@ public class Entity  {
     private Long id;
     private String name;
     private String description;
-    private LinkedList<Entity> related;
+    //private LinkedList<Entity> related;
 
-    public LinkedList<Entity> getRelated() {
+    /*public LinkedList<Entity> getRelated() {
 		return related;
 	}
 
 	public void setRelated(LinkedList<Entity> related) {
 		this.related = related;
-	}
+	}*/
 
 	public Entity(long id, String name, String description) {
         this.id = id;
@@ -36,14 +36,6 @@ public class Entity  {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
-    }
-
-    public Entity clone()  {
-    	
-        //return new Entity(++GeneralUtils.maxId, this.name, this.description);
-    	Entity clonedObj = new Entity(++GeneralUtils.maxId, this.name, this.description);
-    	clonedObj.setRelated(this.related);
-    	return clonedObj;
     }
 
     public Long getId() {
@@ -70,27 +62,4 @@ public class Entity  {
         this.description = description;
     }
 
-	public void cloneRelatedEntities(Entity initialEntity) {
-		 Set<Entity> visited = new HashSet<>(); 
-	     // Call the recursive helper function to print DFS traversal 
-	     DFS(initialEntity, visited);
-		
-	}
-
-	private void DFS(Entity initialEntity, Set<Entity> visited) {
-		// Mark the current entity as visited and print it 
-        visited.add(initialEntity); 
-        initialEntity.clone();
-        System.out.print(initialEntity+" cloned "); 
-  
-        // Recur for all the entities related to it 
-        Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 
-        while (iterator.hasNext()) 
-        { 
-            Entity node = iterator.next(); 
-            if (!visited.contains(node)) 
-                DFS(node, visited); 
-        } 
-		
-	}
 }

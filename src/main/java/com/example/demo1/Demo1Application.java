@@ -1,6 +1,7 @@
 package com.example.demo1;
 
 import com.example.demo1.entity.Entity;
+import com.example.demo1.entity.Graph;
 import com.example.demo1.entity.Link;
 import com.example.demo1.utils.GeneralUtils;
 
@@ -87,7 +88,9 @@ public class Demo1Application {
 		
 	}*/
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
-		createGraph(entityList, linkList);
+		Graph graph = new Graph(entityList, linkList);
+		graph.buildGraph();
+		//createGraph(entityList, linkList);
 		
         System.out.println("OUTPUTS");
         System.out.println("=================");
@@ -99,14 +102,14 @@ public class Demo1Application {
 
 
             //STEP 2
-            Entity clonedEntity = initialEntity.clone();
-            System.out.println(clonedEntity);	
+           // Entity clonedEntity = initialEntity.clone(graph);
+            //System.out.println(clonedEntity);	
             long initialEntityId = initialEntity.getId();
             //ToDo: link source(if any) of initialEntity to its clone also
 
             //STEP 3
-            //BFS and clone
-            initialEntity.cloneRelatedEntities(initialEntity);
+            //DFS and clone
+            graph.cloneRelatedEntities(initialEntity);
 
 
         }
@@ -116,7 +119,7 @@ public class Demo1Application {
 
     }
 
-	private void createGraph(List<Entity> entityList, List<Link> linkList) {
+	/*private void createGraph(List<Entity> entityList, List<Link> linkList) {
 		for(Link link: linkList) {
 			long source = link.getFrom();
 			long dest = link.getTo();
@@ -130,6 +133,6 @@ public class Demo1Application {
 		}
 		
 	}
-
+*/
 }
 
