@@ -57,6 +57,7 @@ public class Graph {
         //return new Entity(++GeneralUtils.maxId, this.name, this.description);
 		long newId = ++GeneralUtils.maxId;
     	Entity clonedObj = new Entity(newId, entity.getName(), entity.getDescription());
+    	System.out.print(clonedObj + " IS CLONE OF "); 
     	//clonedObj.setRelated(this.related);
     	this.updateGraphAfterCloning(newId, clonedObj);
     	//return clonedObj;
@@ -73,9 +74,8 @@ public class Graph {
 		// Mark the current entity as visited and print it 
 		if(initialEntity == null) return;
 		visited.add(initialEntity); 
-		//initialEntity.clone(); ToDo
 		this.clone(initialEntity);
-		System.out.println(initialEntity+" CLONED "); 
+		System.out.println(initialEntity); 
  
        // Recur for all the entities related to it .
        //Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 

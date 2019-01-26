@@ -98,7 +98,7 @@ public class Demo1Application {
         List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
         if(initialEntities.size() > 0) {
             Entity initialEntity = initialEntities.get(0);
-            System.out.println(initialEntity);
+            //System.out.println(initialEntity);
 
 
             //STEP 2
