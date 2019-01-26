@@ -121,7 +121,7 @@ public class Demo1Application {
 			long source = link.getFrom();
 			long dest = link.getTo();
 			if(entityList.size() > 0) {
-				Entity sourceEntity = entityList.get((int) source);	//plz check typecasting!
+				Entity sourceEntity = entityList.get((int) source);	//plz check typecasting! ERROR. NEED TO SEARCH Entity from ID. HOW??
 				Entity destEntity = entityList.get((int) dest);
 				if(sourceEntity != null && destEntity != null) {
 					sourceEntity.getRelated().add(destEntity);
