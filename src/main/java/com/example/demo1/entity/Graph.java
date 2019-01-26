@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.simple.parser.ParseException;
+
 import com.example.demo1.utils.GeneralUtils;
 
 public class Graph {
@@ -74,10 +76,19 @@ public class Graph {
 		Set<Entity> visited = new HashSet<>(); 
 		visited.add(initialEntity); 
 		this.clone(initialEntity);
-	     // Call the recursive helper function to print DFS traversal 
-	     DFS(initialEntity, visited);
-	     System.out.println("EntityList: " + this.entityList.toString());
-	     System.out.println("LinkList: " + this.linkList.toString());
+		
+	    // Call the recursive helper function to print DFS traversal 
+	    DFS(initialEntity, visited);
+	    
+	    System.out.println("EntityList: " + this.entityList.toString());
+	    System.out.println("LinkList: " + this.linkList.toString());
+	    try {
+			GeneralUtils.writetoJSON(this.entityList, this.linkList);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("[ERROR]: JSON write failed.");
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -90,7 +101,7 @@ public class Graph {
 			//System.out.println(initialEntity);
 		}
  
-       // Recur for all the entities related to it .
+       //Recur for all the entities related to it .
        //Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 
        Iterator<Long> iterator = null;
        if( this.getMap().get(initialEntity.getId()) != null) {

@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 
 
 @SpringBootApplication
-public class Demo1Application {
-	
+public class Demo1Application {	
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Demo1Application.class, args);
@@ -85,18 +84,18 @@ public class Demo1Application {
 	}
 	
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
-		Graph graph = new Graph(entityList, linkList);
-		graph.buildGraph(inputEntityid);
-		
-        System.out.println("OUTPUTS");
-        System.out.println("=================");
-        //STEP 1
-        List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
-        if(initialEntities.size() > 0) {
-            Entity initialEntity = initialEntities.get(0);
-            graph.cloneRelatedEntities(initialEntity);
-        }
-    }
+			Graph graph = new Graph(entityList, linkList);
+			graph.buildGraph(inputEntityid);
+			
+	        System.out.println("OUTPUTS");
+	        System.out.println("=================");
+	        //STEP 1
+	        List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
+	        if(initialEntities.size() > 0) {
+	            Entity initialEntity = initialEntities.get(0);
+	            graph.cloneRelatedEntities(initialEntity);
+	        }
+	}
 
 }
 
