@@ -3,7 +3,6 @@ package com.example.demo1;
 import com.example.demo1.entity.Entity;
 import com.example.demo1.entity.Graph;
 import com.example.demo1.entity.Link;
-import com.example.demo1.utils.GeneralUtils;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,10 +20,10 @@ import java.util.stream.Collectors;
 
 
 @SpringBootApplication
-public class Demo1Application {	
+public class RunApp {	
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Demo1Application.class, args);
+		SpringApplication.run(RunApp.class, args);
 
 		if(args == null || args.length <2) {
 			throw new IllegalArgumentException("Invalid inputs provided. Please provide valid file name and node id as 2 parameters !");
@@ -58,13 +57,6 @@ public class Demo1Application {
 				entityList.add(eachEntity);
 				return eachEntity;
 			}).collect(Collectors.toList());
-			
-			GeneralUtils.updateMaxId(entityList);	//to generate unique ID each time
-			
-            System.out.println("INPUTS");
-            System.out.println("===============");
-
-			System.out.println(entityList);
 
 			JSONArray links = (JSONArray) jsonObject.get("links");
 			List<Link> linkList = new ArrayList<>();
@@ -75,9 +67,6 @@ public class Demo1Application {
 				return eachLink;
 			}).collect(Collectors.toList());
 
-
-			System.out.println(linkList);
-
 			process(entityList, linkList, inputEntityId);
 
 		};
@@ -86,10 +75,7 @@ public class Demo1Application {
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
 			Graph graph = new Graph(entityList, linkList);
 			graph.buildGraph(inputEntityid);
-			
-	        System.out.println("OUTPUTS");
-	        System.out.println("=================");
-	   
+
 	        List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
 	        if(initialEntities.size() > 0) {
 	            Entity initialEntity = initialEntities.get(0);

@@ -6,43 +6,46 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.example.demo1.entity.Entity;
 import com.example.demo1.entity.Link;
 
 public class GeneralUtils {
-	
-	public static long maxId;
-	
-	public static void updateMaxId(List<Entity> entityList) {
-		for(Entity entity : entityList) {
-			if(entity!=null && GeneralUtils.maxId < entity.getId()) {				//check for entity NULL.
-				GeneralUtils.maxId = entity.getId();
-			}
-		}
-	}
-	
-	public static void writetoJSON(List<Entity> entityList, List<Link> linkList) throws ParseException {
-		/*JSONParser parser = new JSONParser();
-		JSONObject entityListObject = (JSONObject) parser.parse(entityList.toString());
-		JSONObject linkListObject = (JSONObject) parser.parse(linkList.toString());*/
-		JSONArray outputArray = new JSONArray();
-		for(int i = 0; i<entityList.size(); i++)
-			outputArray.add(entityList.get(i));
-		for(int i = 0; i<linkList.size(); i++)
-			outputArray.add(linkList.get(i));
-		//outputArray.add(linkListObject);
-		//Write JSON file
-        try (FileWriter file = new FileWriter("output.json")) {
- 
-            file.write(outputArray.toJSONString());
-            file.flush();
- 
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    public static void writetoJSON(List<Entity> entityList, List<Link> linkList) throws ParseException {
+        JSONArray outputEntityArray = new JSONArray();
+        JSONArray outputLinkArray = new JSONArray();
+
+        for (int i = 0; i < entityList.size(); i++) {
+            JSONObject eachEntity = new JSONObject();
+            if (entityList.get(i).getDescription() != null) {
+                eachEntity.put("desciption", entityList.get(i).getDescription());
+            }
+            eachEntity.put("name", entityList.get(i).getName());
+            eachEntity.put("entity_id", entityList.get(i).getId());
+
+
+            outputEntityArray.add(eachEntity);
         }
-	}
-		
+        for (int i = 0; i < linkList.size(); i++) {
+            JSONObject eachLink = new JSONObject();
+            eachLink.put("from", linkList.get(i).getFrom());
+            eachLink.put("to", linkList.get(i).getTo());
+            outputLinkArray.add(eachLink);
+        }
+
+        JSONObject obj = new JSONObject();
+        obj.put("entities", outputEntityArray);
+        obj.put("links", outputLinkArray);
+
+        try (FileWriter file = new FileWriter("output.json")) {
+            file.write(obj.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
