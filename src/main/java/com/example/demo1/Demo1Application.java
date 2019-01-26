@@ -2,6 +2,8 @@ package com.example.demo1;
 
 import com.example.demo1.entity.Entity;
 import com.example.demo1.entity.Link;
+import com.example.demo1.utils.GeneralUtils;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class Demo1Application {
+	
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Demo1Application.class, args);
@@ -55,7 +58,9 @@ public class Demo1Application {
 				entityList.add(eachEntity);
 				return eachEntity;
 			}).collect(Collectors.toList());
-
+			
+			GeneralUtils.updateMaxId(entityList);	//to generate unique ID each time
+			
             System.out.println("INPUTS");
             System.out.println("===============");
 
@@ -73,28 +78,35 @@ public class Demo1Application {
 
 			System.out.println(linkList);
 
-
 			process(entityList, linkList, inputEntityId);
 
 		};
 	}
-
+	
+	private void traverseRelatedEntities(List<Entity> entityList, List<Link> linkList, Entity initialEntity) {
+		
+	}
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
+		createGraph(entityList, linkList);
+		
         System.out.println("OUTPUTS");
         System.out.println("=================");
         //STEP 1
         List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
         if(initialEntities.size() > 0) {
-            Entity entity = initialEntities.get(0);
-            System.out.println(entity);
+            Entity initialEntity = initialEntities.get(0);
+            System.out.println(initialEntity);
 
 
             //STEP 2
-            Entity clonedEntity = entity.clone();
-            System.out.println(clonedEntity);
+            Entity clonedEntity = initialEntity.clone();
+            System.out.println(clonedEntity);	
+            long initialEntityId = initialEntity.getId();
+            //ToDo: link source(if any) of initialEntity to its clone also
 
             //STEP 3
             //BFS and clone
+            initialEntity.cloneRelatedEntities(initialEntity);
 
 
         }
@@ -103,6 +115,21 @@ public class Demo1Application {
 
 
     }
+
+	private void createGraph(List<Entity> entityList, List<Link> linkList) {
+		for(Link link: linkList) {
+			long source = link.getFrom();
+			long dest = link.getTo();
+			if(entityList.size() > 0) {
+				Entity sourceEntity = entityList.get((int) source);	//plz check typecasting!
+				Entity destEntity = entityList.get((int) dest);
+				if(sourceEntity != null && destEntity != null) {
+					sourceEntity.getRelated().add(destEntity);
+				}
+			}
+		}
+		
+	}
 
 }
 
