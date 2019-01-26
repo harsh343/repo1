@@ -89,7 +89,7 @@ public class Demo1Application {
 			
 	        System.out.println("OUTPUTS");
 	        System.out.println("=================");
-	        //STEP 1
+	   
 	        List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
 	        if(initialEntities.size() > 0) {
 	            Entity initialEntity = initialEntities.get(0);

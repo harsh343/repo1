@@ -112,8 +112,7 @@ public class Graph {
 	           if (!visited.contains(node)) 
 	               DFS(node, visited); 
 	       } 
-       }
-		
+       }	
 	}
 	
 	

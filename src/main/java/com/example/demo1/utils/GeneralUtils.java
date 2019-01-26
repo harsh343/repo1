@@ -18,19 +18,22 @@ public class GeneralUtils {
 	
 	public static void updateMaxId(List<Entity> entityList) {
 		for(Entity entity : entityList) {
-			if(entity!=null && GeneralUtils.maxId < entity.getId()) {				//check for entity NULL?
+			if(entity!=null && GeneralUtils.maxId < entity.getId()) {				//check for entity NULL
 				GeneralUtils.maxId = entity.getId();
 			}
 		}
 	}
 	
 	public static void writetoJSON(List<Entity> entityList, List<Link> linkList) throws ParseException {
-		JSONParser parser = new JSONParser();
+		/*JSONParser parser = new JSONParser();
 		JSONObject entityListObject = (JSONObject) parser.parse(entityList.toString());
-		JSONObject linkListObject = (JSONObject) parser.parse(linkList.toString());
+		JSONObject linkListObject = (JSONObject) parser.parse(linkList.toString());*/
 		JSONArray outputArray = new JSONArray();
-		outputArray.add(entityListObject);
-		outputArray.add(linkListObject);
+		for(int i = 0; i<entityList.size(); i++)
+			outputArray.add(entityList.get(i));
+		for(int i = 0; i<linkList.size(); i++)
+			outputArray.add(linkList.get(i));
+		//outputArray.add(linkListObject);
 		//Write JSON file
         try (FileWriter file = new FileWriter("output.json")) {
  
