@@ -18,7 +18,7 @@ public class GeneralUtils {
 	public void updateMaxId(List<Entity> entityList) {
 		long maxId = 0;
 		for(Entity entity : entityList) {
-			if(maxId < entity.getId()) {				//check for entity NULL?
+			if(maxId < entity.getId()) {				//check for entity NULL??
 				maxId = entity.getId();
 			}
 			this.setMaxId(maxId);
