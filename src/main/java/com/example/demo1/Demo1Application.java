@@ -83,9 +83,9 @@ public class Demo1Application {
 		};
 	}
 	
-	private void traverseRelatedEntities(List<Entity> entityList, List<Link> linkList, Entity initialEntity) {
+	/*private void traverseRelatedEntities(List<Entity> entityList, List<Link> linkList, Entity initialEntity) {
 		
-	}
+	}*/
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
 		createGraph(entityList, linkList);
 		
