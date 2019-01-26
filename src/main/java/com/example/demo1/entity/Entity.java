@@ -1,32 +1,14 @@
 package com.example.demo1.entity;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
-import com.example.demo1.utils.GeneralUtils;
-
 public class Entity  {
     private Long id;
     private String name;
     private String description;
-    //private LinkedList<Entity> related;
-
-    /*public LinkedList<Entity> getRelated() {
-		return related;
-	}
-
-	public void setRelated(LinkedList<Entity> related) {
-		this.related = related;
-	}*/
 
 	public Entity(long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        //related?
     }
 
     @Override

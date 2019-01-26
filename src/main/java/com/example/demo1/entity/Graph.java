@@ -13,6 +13,7 @@ import com.example.demo1.utils.GeneralUtils;
 public class Graph {
 	private List<Entity> entityList;
 	private List<Link> linkList;
+	private long initialParentId;
 	private Map<Long,List<Long>> map = new HashMap<Long,List<Long>>();
 	private Map<Long,Entity> entityMap = new HashMap<Long,Entity>();
 	
@@ -29,7 +30,7 @@ public class Graph {
 		this.linkList = linkList;
 	}
 	
-	public void buildGraph() {
+	public void buildGraph(Long inputEntityid) {
 		for(Entity entity : this.entityList) {
 			long key = entity.getId();
 			if(!entityMap.containsKey(key))
@@ -37,6 +38,7 @@ public class Graph {
 		}
 		
 		for(Link link : this.linkList) {
+			if(link.getTo() == inputEntityid) this.initialParentId = link.getFrom();
 			long key = link.getFrom();
 			if (map.get(key) == null) {
 			    map.put(key, new ArrayList<Long>());
@@ -45,37 +47,48 @@ public class Graph {
 		}
 	}
 	
-	public void updateGraphAfterCloning(long newId, Entity clonedObj) {
+	public void updateGraphAfterCloning(long parentId, long newId, Entity clonedObj) {
 		/*entityMap.put(newId, clonedObj);
-		map.put(newId, value)
+		map.put(newId, value)*/					//to do or not to do?
 		this.entityList.add(clonedObj);
-		this.linkList.add(e);*/
+		this.linkList.add(new Link(parentId, newId));
 	}
 	
 	public void clone(Entity entity)  {
-    	
-        //return new Entity(++GeneralUtils.maxId, this.name, this.description);
+		long parentId;
+		if(this.initialParentId > 0) {		//special case for initialEntity's parent
+			parentId = initialParentId;
+			initialParentId = 0;
+		}
+		else {
+			parentId = GeneralUtils.maxId;
+		}
 		long newId = ++GeneralUtils.maxId;
     	Entity clonedObj = new Entity(newId, entity.getName(), entity.getDescription());
-    	System.out.print(clonedObj + "IS CLONE OF "); 
-    	//clonedObj.setRelated(this.related);
-    	this.updateGraphAfterCloning(newId, clonedObj);
-    	//return clonedObj;
+    	//System.out.print(clonedObj + "IS CLONE OF "); 
+    	this.updateGraphAfterCloning(parentId, newId, clonedObj);
+    	
     }
 	
 	public void cloneRelatedEntities(Entity initialEntity) {
-		 Set<Entity> visited = new HashSet<>(); 
+		Set<Entity> visited = new HashSet<>(); 
+		visited.add(initialEntity); 
+		this.clone(initialEntity);
 	     // Call the recursive helper function to print DFS traversal 
 	     DFS(initialEntity, visited);
+	     System.out.println("EntityList: " + this.entityList.toString());
+	     System.out.println("LinkList: " + this.linkList.toString());
 		
 	}
 
 	public void DFS(Entity initialEntity, Set<Entity> visited) {
-		// Mark the current entity as visited and print it 
+		// Mark the current entity as visited
 		if(initialEntity == null) return;
-		visited.add(initialEntity); 
-		this.clone(initialEntity);
-		System.out.println(initialEntity); 
+		if(!visited.contains(initialEntity)) {
+			visited.add(initialEntity); 
+			this.clone(initialEntity);
+			//System.out.println(initialEntity);
+		}
  
        // Recur for all the entities related to it .
        //Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 
@@ -91,23 +104,6 @@ public class Graph {
        }
 		
 	}
-	
-	
-	/*public List<Link> getLinkList() {
-		return linkList;
-	}
-	public void setLinkList(List<Link> linkList) {
-		this.linkList = linkList;
-	}
-	public List<Entity> getEntityList() {
-		return entityList;
-	}
-	public void setEntityList(List<Entity> entityList) {
-		this.entityList = entityList;
-	}*/
-	
-	
-	
 	
 	
 }

@@ -84,13 +84,9 @@ public class Demo1Application {
 		};
 	}
 	
-	/*private void traverseRelatedEntities(List<Entity> entityList, List<Link> linkList, Entity initialEntity) {
-		
-	}*/
 	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
 		Graph graph = new Graph(entityList, linkList);
-		graph.buildGraph();
-		//createGraph(entityList, linkList);
+		graph.buildGraph(inputEntityid);
 		
         System.out.println("OUTPUTS");
         System.out.println("=================");
@@ -98,41 +94,9 @@ public class Demo1Application {
         List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
         if(initialEntities.size() > 0) {
             Entity initialEntity = initialEntities.get(0);
-            System.out.println(initialEntity);
-
-
-            //STEP 2
-           // Entity clonedEntity = initialEntity.clone(graph);
-            //System.out.println(clonedEntity);	
-            long initialEntityId = initialEntity.getId();
-            //ToDo: link source(if any) of initialEntity to its clone also
-
-            //STEP 3
-            //DFS and clone
             graph.cloneRelatedEntities(initialEntity);
-
-
         }
-
-
-
-
     }
 
-	/*private void createGraph(List<Entity> entityList, List<Link> linkList) {
-		for(Link link: linkList) {
-			long source = link.getFrom();
-			long dest = link.getTo();
-			if(entityList.size() > 0) {
-				Entity sourceEntity = entityList.get((int) source);	//plz check typecasting! ERROR. NEED TO SEARCH Entity from ID. HOW??
-				Entity destEntity = entityList.get((int) dest);
-				if(sourceEntity != null && destEntity != null) {
-					sourceEntity.getRelated().add(destEntity);
-				}
-			}
-		}
-		
-	}
-*/
 }
 
