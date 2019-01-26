@@ -58,7 +58,7 @@ public class Graph {
 	
 	public void clone(Entity entity)  {
 		long parentId;
-		if(this.initialParentId > 0) {		//special case for initialEntity's parent
+		if(this.initialParentId > 0) {		//special case for initialEntity's parent.
 			parentId = initialParentId;
 			initialParentId = 0;
 		}
