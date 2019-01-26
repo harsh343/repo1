@@ -76,7 +76,7 @@ public class Graph {
        this.clone(initialEntity);
        System.out.println(initialEntity+" CLONED "); 
  
-       // Recur for all the entities related to it 
+       // Recur for all the entities related to it .
        //Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 
        Iterator<Long> iterator = this.getMap().get(initialEntity.getId()).listIterator();
        while (iterator.hasNext()) 
