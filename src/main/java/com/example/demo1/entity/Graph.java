@@ -71,20 +71,24 @@ public class Graph {
 
 	public void DFS(Entity initialEntity, Set<Entity> visited) {
 		// Mark the current entity as visited and print it 
-       visited.add(initialEntity); 
-       //initialEntity.clone(); ToDo
-       this.clone(initialEntity);
-       System.out.println(initialEntity+" CLONED "); 
+		if(initialEntity == null) return;
+		visited.add(initialEntity); 
+		//initialEntity.clone(); ToDo
+		this.clone(initialEntity);
+		System.out.println(initialEntity+" CLONED "); 
  
        // Recur for all the entities related to it .
        //Iterator<Entity> iterator = initialEntity.getRelated().listIterator(); 
-       Iterator<Long> iterator = this.getMap().get(initialEntity.getId()).listIterator();
-       while (iterator.hasNext()) 
-       { 
-           Entity node = entityMap.get(iterator.next()); 
-           if (!visited.contains(node)) 
-               DFS(node, visited); 
-       } 
+       Iterator<Long> iterator = null;
+       if( this.getMap().get(initialEntity.getId()) != null) {
+    	   iterator = this.getMap().get(initialEntity.getId()).listIterator();
+	       while (iterator!= null && iterator.hasNext()) 
+	       { 
+	           Entity node = entityMap.get(iterator.next()); 
+	           if (!visited.contains(node)) 
+	               DFS(node, visited); 
+	       } 
+       }
 		
 	}
 	
