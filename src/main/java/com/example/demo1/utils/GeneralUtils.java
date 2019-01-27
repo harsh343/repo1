@@ -39,7 +39,7 @@ public class GeneralUtils {
         obj.put("entities", outputEntityArray);
         obj.put("links", outputLinkArray);
 
-        try (FileWriter file = new FileWriter("output.json")) {
+        try (FileWriter file = new FileWriter("target/output.json")) {
             file.write(obj.toJSONString());
             file.flush();
 
