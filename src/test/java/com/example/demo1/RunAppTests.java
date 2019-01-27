@@ -31,7 +31,7 @@ public class RunAppTests {
         app.run(RunApp.class, file.getAbsolutePath(), "3");
 
         File expectedOutputFile = new File(classLoader.getResource("expectedOutput.json").getFile());
-        File actualOutputFile = new File("target/output.json");
+        File actualOutputFile = new File("output.json");
 
         Assert.assertTrue("The files differ!",
                 FileUtils.contentEquals(expectedOutputFile, actualOutputFile));
