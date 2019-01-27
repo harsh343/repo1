@@ -72,14 +72,17 @@ public class RunApp {
 		};
 	}
 	
-	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) {
+	private void process(List<Entity> entityList, List<Link> linkList, Long inputEntityid) throws Exception {
 			Graph graph = new Graph(entityList, linkList);
 			graph.buildGraph(inputEntityid);
 
 	        List<Entity> initialEntities = entityList.stream().filter(entity -> entity.getId() == inputEntityid).collect(Collectors.toList());
-	        if(initialEntities.size() > 0) {
+	        if(initialEntities != null && initialEntities.size() > 0) {
 	            Entity initialEntity = initialEntities.get(0);
 	            graph.cloneRelatedEntities(initialEntity);
+	        }
+	        else {
+	        	throw new Exception("Given value not found.");
 	        }
 	}
 

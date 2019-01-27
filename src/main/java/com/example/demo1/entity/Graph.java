@@ -8,7 +8,7 @@ import java.util.*;
 public class Graph {
 	private List<Entity> entityList;
 	private List<Link> linkList;
-	private long initialParentId;
+	private List<Long> initialParentIds = new ArrayList<Long>();
 	private Map<Long,List<Long>> map = new HashMap<Long,List<Long>>();
 	private Map<Long,Entity> entityMap = new HashMap<Long,Entity>();
 
@@ -39,8 +39,9 @@ public class Graph {
 		}
 		
 		for(Link link : this.linkList) {
-			if(link.getTo() == inputEntityid)
-				this.initialParentId = link.getFrom();
+			if(link.getTo() == inputEntityid) {
+				this.initialParentIds.add(link.getFrom());
+			}
 			long key = link.getFrom();
 			if (map.get(key) == null) {
 			    map.put(key, new ArrayList<Long>());
@@ -57,14 +58,7 @@ public class Graph {
 	}
 	
 	public void clone(Entity entity)  {
-		long parentId;
-		if(this.initialParentId > 0) {
-			parentId = initialParentId;
-			initialParentId = 0;
-		}
-		else {
-			parentId = maxId;
-		}
+		long parentId = maxId;
 		long newId = ++maxId;
     	Entity clonedObj = new Entity(newId, entity.getName(), entity.getDescription());
     	this.updateGraphAfterCloning(parentId, newId, clonedObj);
@@ -74,7 +68,18 @@ public class Graph {
 	public void cloneRelatedEntities(Entity initialEntity) {
 		Set<Entity> visited = new HashSet<>(); 
 		visited.add(initialEntity); 
-		this.clone(initialEntity);
+		if(!this.entityList.contains(initialEntity)) {
+			   throw new IllegalArgumentException("Given ID not found in the input file.");
+		}
+		
+		
+		long newId = ++maxId;
+    	Entity clonedObj = new Entity(newId, initialEntity.getName(), initialEntity.getDescription());
+    	this.entityList.add(clonedObj);
+    	for(long initialParentId : initialParentIds) {
+    		this.linkList.add(new Link(initialParentId, newId));
+    	}
+		
 		
 	    DFS(initialEntity, visited);
 

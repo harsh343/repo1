@@ -13,16 +13,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RunAppTests {
 
-@Autowired
-ApplicationContext ctx;
-
-
-
-@Test
-public void testDemo1() {
-SpringApplication app = new SpringApplication();
-app.run(Demo1Application.class,"input.txt", "3");
-}
+	@Autowired
+	ApplicationContext ctx;
+	
+	
+	
+	@Test
+	public void testDemo1() {
+	SpringApplication app = new SpringApplication();
+	app.run(RunApp.class,"src\\main\\resources\\input.json", "3");
+	}
 
 
 }

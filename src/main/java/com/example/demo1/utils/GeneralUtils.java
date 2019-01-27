@@ -20,7 +20,7 @@ public class GeneralUtils {
         for (int i = 0; i < entityList.size(); i++) {
             JSONObject eachEntity = new JSONObject();
             if (entityList.get(i).getDescription() != null) {
-                eachEntity.put("desciption", entityList.get(i).getDescription());
+                eachEntity.put("description", entityList.get(i).getDescription());
             }
             eachEntity.put("name", entityList.get(i).getName());
             eachEntity.put("entity_id", entityList.get(i).getId());
